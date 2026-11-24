@@ -1,0 +1,54 @@
+{% extends "inventory/base.html" %}
+{% block title %}Қоймадағы тауарлар{% endblock %}
+{% block content %}
+<div class="grid">
+  <section class="panel">
+    <h2>Жаңа тауар қосу</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}{{ field.errors }}{% endif %}
+      {% endfor %}
+      {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+      <button class="submit" type="submit">Тауарды тіркеу</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Тауарлар тізімі <span style="color:#687386;font-weight:400">({{ products|length }})</span></h2>
+    {% if products %}
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Тауар</th><th>Саны</th><th>Ең аз қор</th><th>Мәртебе</th><th></th></tr></thead>
+          <tbody>
+            {% for product in products %}
+              <tr>
+                <td><strong>{{ product.name }}</strong></td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.min_quantity }}</td>
+                <td>
+                  {% if product.is_low_stock %}
+                    <span class="pill low">Қор аз</span>
+                  {% else %}
+                    <span class="pill">Қалыпты</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <form method="post" action="{% url 'delete_product' product.pk %}">
+                    {% csrf_token %}
+                    <button class="delete" type="submit">Жою</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty">Әзірге тауар жоқ. Бірінші тауарды тіркеңіз.</div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

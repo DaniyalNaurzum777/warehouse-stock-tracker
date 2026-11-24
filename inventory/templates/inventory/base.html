@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Қойма бақылауы{% endblock %}</title>
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#687386; --line:#e4e8ef; --accent:#315efb; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#f5f7fb; color:var(--ink); font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif; }
+    .wrap { width:min(100% - 32px, 1040px); margin:42px auto; }
+    header { margin-bottom:28px; }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:12px; }
+    h1 { margin:6px 0; font-size:clamp(28px,5vw,40px); letter-spacing:-.04em; }
+    .sub { color:var(--muted); margin:0; }
+    .grid { display:grid; grid-template-columns: minmax(260px, .8fr) minmax(0,1.5fr); gap:20px; align-items:start; }
+    .panel { background:white; border:1px solid var(--line); border-radius:18px; padding:22px; box-shadow:0 8px 28px #17203308; }
+    h2 { font-size:18px; margin:0 0 18px; }
+    label { display:block; font-weight:600; margin:14px 0 6px; }
+    input { width:100%; padding:11px 12px; border:1px solid #d7dce5; border-radius:10px; font:inherit; }
+    input:focus { outline:2px solid #315efb33; border-color:var(--accent); }
+    button { border:0; border-radius:10px; background:var(--accent); color:white; padding:11px 16px; font:inherit; font-weight:700; cursor:pointer; }
+    .submit { width:100%; margin-top:18px; }
+    .messages { padding:0; list-style:none; }
+    .messages li { padding:10px 12px; border-radius:10px; margin:8px 0; background:#eef3ff; }
+    .messages .warning { background:#fff3df; color:#8a5100; }
+    .messages .success { background:#e9f8ef; color:#17683b; }
+    .errorlist { color:#b42318; margin:5px 0; padding-left:18px; font-size:13px; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:440px; }
+    th,td { padding:12px 8px; text-align:left; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+    .pill { display:inline-block; padding:4px 9px; border-radius:99px; font-size:12px; font-weight:700; background:#e8f7ee; color:#17683b; }
+    .pill.low { background:#fff0df; color:#a14d00; }
+    .delete { background:#fff0f0; color:#b42318; padding:6px 9px; font-size:12px; }
+    .empty { color:var(--muted); text-align:center; padding:28px 8px; }
+    @media(max-width:760px) { .wrap { margin:24px auto; } .grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">Inventory management</div>
+      <h1>Қоймадағы тауар қалдығы</h1>
+      <p class="sub">Тауарларды тіркеңіз және азайған қорды уақытында бақылаңыз.</p>
+    </header>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
